@@ -2,13 +2,13 @@
 published: false
 ---
 A friend came to me and told me about his gargage box problem.
-He owns garageboxes that are centrally accessible through a main entry which is controlled by a garage door. This door is open during the day and closes in the evening until 6 AM in the morning for security reasons. Not every owner of a garage box has a remote control so sometimes it happens those persons call him to open the main gate when they need to get their car.
+He owns garageboxes that are centrally accessible through a main entry which is controlled by a garage door. This door is open during the day and closes in the evening until 6 AM in the morning for security reasons. Not every owner of a garage box has a remote control so sometimes it happens those persons call him to open the main gate when they need to get to their car.
 
 That's where this project started to build an internet connected garage door opener.
 
 All we need is an ESP8266,a 3V relais and a remote control to open the garage door.
 
-![]({{site.baseurl}}/![IBM_IoT_Device_Create.png]({{site.baseurl}}/images/IBM_IoT_Device_Create.png))
+![IOT-GD-1.jpg]({{site.baseurl}}/images/IOT-GD-1.jpg)
 
 In order to keep the solution simple, we will make use of an IoT service/software [https://blynk.io/](https://blynk.io/)
 
@@ -18,7 +18,7 @@ In order to keep the solution simple, we will make use of an IoT service/softwar
 
 - Login to the Blynk IoT Service and create a 'Template' e.g. 'ESP8266'
 
-![]()
+![IOT-GD-2.jpg]({{site.baseurl}}/images/IOT-GD-2.jpg)
 
 - Next, while we're in the template, create 2 Datastreams:
 
@@ -27,7 +27,7 @@ In order to keep the solution simple, we will make use of an IoT service/softwar
 
 - Now create a 'New Device' based on the template we created
 
-![]()
+![IOT-GD-3.jpg]({{site.baseurl}}/images/IOT-GD-3.jpg)
 
 - Click on the popup to copy the code to the clipboard. This code contains the device info and a token to communicate with the Blynk platform. We will use these definitions later into our Arduino source code. This same info can also be found by clicking on the 'Device info'.
 
@@ -35,7 +35,7 @@ In order to keep the solution simple, we will make use of an IoT service/softwar
 
 - Open 'Arduino' and install the 'Blynk' Library (Tools - Manage Libraries...)
 
-![]()
+![IOT-GD-4.jpg]({{site.baseurl}}/images/IOT-GD-4.jpg)
 
 - Open the Blynk example code : File -> Examples -> Blynk -> Blynk.Edgent -> Edgent_ESP8266
 

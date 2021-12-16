@@ -10,7 +10,7 @@ All we need is an ESP8266, a 3V relais and a remote control to open the garage d
 
 ![IOT-GD-1.jpg]({{site.baseurl}}/images/IOT-GD-1.jpg)
 
-In order to keep the solution simple, we will make use of an IoT service/software [https://blynk.io/](https://blynk.io/)
+In order to keep the solution simple, we will make use of an IoT service/software :  [https://blynk.io/](https://blynk.io/)
 
 'Blynk' is free for basic usage as long as you are ok with the limitations e.g. max 2 devices to control. For our project this is just fine.
 
@@ -43,60 +43,58 @@ In order to keep the solution simple, we will make use of an IoT service/softwar
 
 - Complete the code with the additional logic to control the relais (see sample code below):
 
-```	
-	#define BLYNK_TEMPLATE_ID "xxxxxxxxxx"
-	#define BLYNK_DEVICE_NAME "GARAGEDOOR"
-	#define BLYNK_AUTH_TOKEN "xxxxxxxxxxxxxxxxxx"
+      #define BLYNK_TEMPLATE_ID "xxxxxxxxxx"
+      #define BLYNK_DEVICE_NAME "GARAGEDOOR"
+      #define BLYNK_AUTH_TOKEN "xxxxxxxxxxxxxxxxxx"
 
-	#define BLYNK_FIRMWARE_VERSION        "0.1.0"
-	
-	#define BLYNK_PRINT Serial
-	// #define BLYNK_DEBUG
-	
-	#define APP_DEBUG
-	
-	// Uncomment your board, or configure a custom board in Settings.h
-	//#define USE_SPARKFUN_BLYNK_BOARD
-	#define USE_NODE_MCU_BOARD
-	//#define USE_WITTY_CLOUD_BOARD
-	//#define USE_WEMOS_D1_MINI
-	
-	#include "BlynkEdgent.h"
-	
-	// Use Virtual pin 5 for uptime display
-	#define PIN_UPTIME V0
-	#define RELAY_PIN 5
-	
-	BLYNK_WRITE(V1)
-	{
-	  int pinData = param.asInt();
-	  Serial.println("Received : ");
-	  Serial.println(pinData);
-	  if (pinData == 1) {
-	    Blynk.virtualWrite(V0, 1);
-	    Serial.println("Sending Status");
-	    digitalWrite(RELAY_PIN, HIGH);
-	    delay(2000);
-	    digitalWrite(RELAY_PIN, LOW);
-	    Blynk.virtualWrite(V0, 0);
-	  }
-	}
-	
-	void setup()
-	{
-	  Serial.begin(115200);
-	  delay(100);
-	  pinMode(RELAY_PIN, OUTPUT);
-	  delay(2000);
-	  digitalWrite(RELAY_PIN, LOW);
-	  // Start connected devices
-	  BlynkEdgent.begin();
-	}
-	
-	void loop() {
-	  BlynkEdgent.run();
-	}
-```
+      #define BLYNK_FIRMWARE_VERSION        "0.1.0"
+
+      #define BLYNK_PRINT Serial
+      // #define BLYNK_DEBUG
+
+      #define APP_DEBUG
+
+      // Uncomment your board, or configure a custom board in Settings.h
+      //#define USE_SPARKFUN_BLYNK_BOARD
+      #define USE_NODE_MCU_BOARD
+      //#define USE_WITTY_CLOUD_BOARD
+      //#define USE_WEMOS_D1_MINI
+
+      #include "BlynkEdgent.h"
+
+      // Use Virtual pin 5 for uptime display
+      #define PIN_UPTIME V0
+      #define RELAY_PIN 5
+
+      BLYNK_WRITE(V1)
+      {
+          int pinData = param.asInt();
+          Serial.println("Received : ");
+          Serial.println(pinData);
+          if (pinData == 1) {
+              Blynk.virtualWrite(V0, 1);
+              Serial.println("Sending Status");
+              digitalWrite(RELAY_PIN, HIGH);
+              delay(2000);
+              digitalWrite(RELAY_PIN, LOW);
+              Blynk.virtualWrite(V0, 0);
+          }
+      }
+
+      void setup()
+      {
+          Serial.begin(115200);
+          delay(100);
+          pinMode(RELAY_PIN, OUTPUT);
+          delay(2000);
+          digitalWrite(RELAY_PIN, LOW);
+          // Start connected devices
+          BlynkEdgent.begin();
+      }
+
+      void loop() {
+          BlynkEdgent.run();
+      }
 
 ## Configure the device using the 'Blynk' app on your smartphone
 

@@ -6,7 +6,7 @@ He owns garageboxes that are centrally accessible through a main entry which is 
 
 That's where this project started to build an internet connected garage door opener.
 
-All we need is an ESP8266,a 3V relais and a remote control to open the garage door.
+All we need is an ESP8266, a 3V relais and a remote control to open the garage door.
 
 ![IOT-GD-1.jpg]({{site.baseurl}}/images/IOT-GD-1.jpg)
 

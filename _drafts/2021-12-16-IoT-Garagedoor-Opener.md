@@ -102,7 +102,7 @@ In order to keep the solution simple, we will make use of an IoT service/softwar
 
 Open the app and add a new device using 'Connect to Wifi':
 
-![IOT-GD-5.jpg]({{site.baseurl}}/images/IOT-GD-5.jpg)
+![IOT-GD-5.png]({{site.baseurl}}/images/IOT-GD-5.png)
 
 - Click on 'Ready' and the app will scan for a Wifi access-point exposed by the ESP8266.
 - Click on join to connect

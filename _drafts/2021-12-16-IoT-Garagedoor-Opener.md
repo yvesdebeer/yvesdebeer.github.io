@@ -119,7 +119,7 @@ Open the app and add a new device using 'Connect to Wifi':
 
 - Click on '+' and add a 'Led'
 - You can drag it around, resize and position it as you want
-- Click on the 'Led' and select the DATASTREAM : 'Status (v0)
+- Click on the 'Led' and select the DATASTREAM : 'Status (v0)'
 
 - Add a 'Button'
 - Click on the 'Button' and select the DATASTREAM : 'GarageDoor(v1)'
@@ -129,3 +129,5 @@ You can play around and customize the interface (see example below) :
 ![IOT-GD-7.png]({{site.baseurl}}/images/IOT-GD-7.png)
 
 Now, when you hit the BUTTON, you should see the LED colour change and the relais should be activated which should result in a signal on the remote control to open the garage.
+The fact that the LED was turned of again means that the communication was successful as this action was performed by the Arduino code.
+

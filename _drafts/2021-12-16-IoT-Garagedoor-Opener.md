@@ -106,6 +106,9 @@ Open the app and add a new device using 'Connect to Wifi':
 
 - Click on 'Ready' and the app will scan for a Wifi access-point exposed by the ESP8266.
 - Click on join to connect
+
+![IOT-GD-6.png]({{site.baseurl}}/images/IOT-GD-6.png)
+
 - Select your preferred Wifi access-point to be used by the ESP8266
 - Now the device should be configured (stored to flash) and ready to communicate with the Blynk IoT Cloud service (if you want you can check the device log using the Arduino serial monitor)
 
@@ -118,11 +121,11 @@ Open the app and add a new device using 'Connect to Wifi':
 - You can drag it around, resize and position it as you want
 - Click on the 'Led' and select the DATASTREAM : 'Status (v0)
 
-- Add also a 'Button'
+- Add a 'Button'
 - Click on the 'Button' and select the DATASTREAM : 'GarageDoor(v1)'
 
 You can play around and customize the interface (see example below) :
 
-![]()
+![IOT-GD-7.png]({{site.baseurl}}/images/IOT-GD-7.png)
 
 Now, when you hit the BUTTON, you should see the LED colour change and the relais should be activated which should result in a signal on the remote control to open the garage.

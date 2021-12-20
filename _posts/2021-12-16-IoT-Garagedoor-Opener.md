@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 A friend came to me and told me about his garage box problem.
 He owns garageboxes that are centrally accessible through a main entry which is controlled by a single garage door. This door is open during the day and closes in the evening until 6 AM in the morning for security reasons. Not every owner of a garage box has a remote control so sometimes it happens those persons call him to open the main gate when they need to get to their car.

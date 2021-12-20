@@ -1,7 +1,7 @@
 ---
 published: false
 ---
-A friend came to me and told me about his gargage box problem.
+A friend came to me and told me about his garage box problem.
 He owns garageboxes that are centrally accessible through a main entry which is controlled by a single garage door. This door is open during the day and closes in the evening until 6 AM in the morning for security reasons. Not every owner of a garage box has a remote control so sometimes it happens those persons call him to open the main gate when they need to get to their car.
 
 That's where this project started to build an internet connected garage door opener.
@@ -130,4 +130,3 @@ You can play around and customize the interface (see example below) :
 
 Now, when you hit the BUTTON, you should see the LED colour change and the relais should be activated which should result in a signal on the remote control to open the garage.
 The fact that the LED was turned of again means that the communication was successful as this action was performed by the Arduino code.
-

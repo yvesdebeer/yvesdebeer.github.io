@@ -43,6 +43,8 @@ Finally if you want to use a small SD-Card (2Gb or even smaller) as boot device,
 - Finally edit the file '/boot/cmdline.txt' to point to the correct root PartitionUUID.
 
 
-As a result we only use the SD-Card to boot the Raspberry Pi and everything else runs of the external SSD drive.
+As a result we only use the SD-Card to boot the Raspberry Pi.
+Everything else runs of the external SSD drive.
+
 
 

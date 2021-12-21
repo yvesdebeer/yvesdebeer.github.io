@@ -36,11 +36,13 @@ Boot the Pi and connect your external USB drive. I'm using an SSD drive because 
 Finally if you want to use a small SD-Card (2Gb or even smaller) as boot device, you can do the following : 
 
 - Format the small SD-Card with a FAT filesystem (you can use Disk Utility on Mac or fdisk on Linux)
-- Copy the boot partition from the SD-Card (16Gb) onto the small SD-Card using the command 'dd' e.g. (your devices might have different names) :
+- Copy the boot partition from the SD-Card (16Gb) onto the small SD-Card using the command 'dd' (your devices might have different names) :
 
-	sudo dd if=/dec/mmcblk0p1 of=/dev/sda1
+		sudo dd if=/dec/mmcblk0p1 of=/dev/sda1
     
 - Finally edit the file '/boot/cmdline.txt' to point to the correct root PartitionUUID.
 
 
-Enter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.
+As a result we only use the SD-Card to boot the Raspberry Pi and everything else runs of the external SSD drive.
+
+

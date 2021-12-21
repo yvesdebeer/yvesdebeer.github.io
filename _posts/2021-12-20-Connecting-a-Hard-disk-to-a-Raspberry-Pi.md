@@ -29,7 +29,7 @@ Boot the Pi and connect your external USB drive. I'm using an SSD drive because 
 - Note down the PartitionUUID in the file 'cmdline.txt' from the /boot directory of the external disk. This is the PartitionUUID we want to mount when the Pi boots up.
 - Now edit the cmdline.txt from the /boot directory and replace the root PartitionUUID to refer to the PartitionUUID from the external disk e.g.
 
-		console=serial0,115200 console=tty1 root=PARTUUID=a4cd54ec-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles
+`console=serial0,115200 console=tty1 root=PARTUUID=a4cd54ec-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles`
     
 - Reboot the Pi and verify the mounted file systems using the command 'df -h'. If all went well, the external USB Drive should now be mounted as the root file system and the '/boot' directory should be mounted from the SD-Card.
 
@@ -38,7 +38,7 @@ Finally if you want to use a small SD-Card (2Gb or even smaller) as boot device,
 - Format the small SD-Card with a FAT filesystem (you can use Disk Utility on Mac or fdisk on Linux)
 - Copy the boot partition from the SD-Card (16Gb) onto the small SD-Card using the command 'dd' (your devices might have different names) :
 
-		sudo dd if=/dec/mmcblk0p1 of=/dev/sda1
+`sudo dd if=/dec/mmcblk0p1 of=/dev/sda`
     
 - Finally edit the file '/boot/cmdline.txt' to point to the correct root PartitionUUID.
 

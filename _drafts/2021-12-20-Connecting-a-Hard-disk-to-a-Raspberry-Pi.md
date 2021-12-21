@@ -23,7 +23,7 @@ Boot the Pi and connect your external USB drive. I'm using an SSD drive because 
 - Select the source and target devices. Make sure to enable 'New PArtition UUIDs':
   This will copy the 2 partitions of the SD-Card onto the external USB drive.
 
-   ![PI_CP_SD.png]({{site.baseurl}}/PI_CP_SD.png)
+   ![PI_CP_SD.png]({{site.baseurl}}/images/PI_CP_SD.png)
 
 - Reboot the Pi. This will automatically mount the external drive.
 - Note down the PartitionUUID from the file cmdline.txt from the /boot directory of the external disk. This is the UUID we want to mount when the Pi boots up.

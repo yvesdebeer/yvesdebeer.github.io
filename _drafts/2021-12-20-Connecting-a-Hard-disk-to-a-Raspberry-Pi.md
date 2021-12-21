@@ -26,12 +26,21 @@ Boot the Pi and connect your external USB drive. I'm using an SSD drive because 
    ![PI_CP_SD.png]({{site.baseurl}}/images/PI_CP_SD.png)
 
 - Reboot the Pi. This will automatically mount the external drive.
-- Note down the PartitionUUID from the file cmdline.txt from the /boot directory of the external disk. This is the UUID we want to mount when the Pi boots up.
-- Now edit the cmdline.txt from the /boot directory and replace the root partition UUID to refer to the UUID from the external disk e.g.
+- Note down the PartitionUUID in the file 'cmdline.txt' from the /boot directory of the external disk. This is the PartitionUUID we want to mount when the Pi boots up.
+- Now edit the cmdline.txt from the /boot directory and replace the root PartitionUUID to refer to the PartitionUUID from the external disk e.g.
 
 		console=serial0,115200 console=tty1 root=PARTUUID=a4cd54ec-02 rootfstype=ext4 fsck.repair=yes rootwait quiet splash plymouth.ignore-serial-consoles
     
+- Reboot the Pi and verify the mounted file systems using the command 'df -h'. If all went well, the external USB Drive should now be mounted as the root file system and the '/boot' directory should be mounted from the SD-Card.
+
+Finally if you want to use a small SD-Card (2Gb or even smaller) as boot device, you can do the following : 
+
+- Format the small SD-Card with a FAT filesystem (you can use Disk Utility on Mac or fdisk on Linux)
+- Copy the boot partition from the SD-Card (16Gb) onto the small SD-Card using the command 'dd' e.g. (your devices might have different names) :
+
+	sudo dd if=/dec/mmcblk0p1 of=/dev/sda1
     
+- Finally edit the file '/boot/cmdline.txt' to point to the correct root PartitionUUID.
 
 
 Enter text in [Markdown](http://daringfireball.net/projects/markdown/). Use the toolbar above, or click the **?** button for formatting help.

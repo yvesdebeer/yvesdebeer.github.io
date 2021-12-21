@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 A Raspberry Pi can offer a quick solution to do some prototyping but if you need additional storage, an external hard drive can be very handy.
 

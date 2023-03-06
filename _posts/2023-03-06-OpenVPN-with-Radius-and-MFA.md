@@ -30,7 +30,11 @@ Download the .ovpn file and import it in your OpenVPN client.
 ```
 Finally a client configuration file is ready to be imported into the VPN Client.
 
-2. Installation 
+2. Installation OpenVPN client for Windows
 
+Download the OpenVPN Client software from http://openvpn.net/vpn-client
+Install the OpenVPN Client:
+
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OpenVPN-Client-Install.png)
 
 

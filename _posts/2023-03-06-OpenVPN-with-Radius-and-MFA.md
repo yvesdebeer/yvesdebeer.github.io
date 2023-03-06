@@ -221,3 +221,6 @@ persist-tun
 This will allow the user to enter a username and password when initiating the VPN connection.
 These credentials will be authenticated against the IBM Verify Saas directory and this should result in a challenge request on the IBM Verify Mobile app.
 The 'wait=60' will allow the plugin to wait for a response from the user.
+  
+If you prefer to use an TOTP challenge instead, you can modify the radius configuration file on Windows (IBMRadiusConfig.json) and set the 'auth-method' to 'password-and-totp'.
+Then you can open the client VPN connection and use '<TOTP-challenge>:password' instead of the normal password.

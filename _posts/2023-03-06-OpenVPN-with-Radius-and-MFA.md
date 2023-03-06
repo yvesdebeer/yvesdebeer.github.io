@@ -11,8 +11,7 @@ Additionally I will also show how to setup a Free Radius server and a plugin to 
 	# chmod +x openvpn-install.sh
 	# ./openvpn-install.sh
 
-Accept defaults for installation of OpenVPN and at the end provide a 'Client name' e.g. 'demouser'
-I have chosen a passwordless client but if you want you can also add an additional password to protect your private key.
+Accept defaults for installation of OpenVPN and at the end provide a 'Client name' e.g. 'demouser'. I have chosen a passwordless client but if you want you can also add an additional password to protect your private key.
 
 	Client name: demouser
 
@@ -28,15 +27,15 @@ I have chosen a passwordless client but if you want you can also add an addition
 
 Finally a client configuration file is ready to be imported into the VPN Client.
 
-## 2. Installation OpenVPN client for Windows
+## 2. Installation OpenVPN Client for Windows
 
-Download the OpenVPN Client software from http://openvpn.net/vpn-client
+Download the OpenVPN Client software from <http://openvpn.net/vpn-client>
 
 Install the OpenVPN Client:
 
 ![]({{site.baseurl}}/images/OpenVPN-Client-Install.png)
 
-Once the installation is finished we can import the configuration file 'demouser.ovpn' which was generated on the OpenVPN server but before importing we need to modify the IP-address of our OpenVPN server in this file:
+Once the installation is finished we can import the configuration file 'demouser.ovpn' which was generated on the OpenVPN server but before importing we need to modify the IP-address of our OpenVPN server within this file:
 
     client
     proto udp
@@ -59,7 +58,7 @@ To quickly test this we can just disable the firewall using the command:
 
 	# systemctl stop firewalld
 
-Alternative configure Linux firewall for OpenVPN connectivity:
+Alternatively configure Linux firewall for OpenVPN connectivity:
 
     sudo firewall-cmd --add-service=openvpn
     sudo firewall-cmd --permanent --add-service=openvpn
@@ -72,18 +71,18 @@ Now the connection should work:
 
 ![]({{site.baseurl}}/images/OpenVPN-Client-Connect.png)
 
-## 3. In the next step I will describe ho to use Radius with OpenVPN.
+## 3. The next step describes how to use Radius with OpenVPN.
 
 First we will install the IBM Security Verify Gateway for RADIUS on a Windows machine.
-Documentation is available at: https://www.ibm.com/docs/en/security-verify?topic=integrations-security-verify-gateway-radius
+Documentation is available at: <https://www.ibm.com/docs/en/security-verify?topic=integrations-security-verify-gateway-radius>
 
 This package can be downloaded from the IBM Security AppExchange here: 
-https://exchange.xforce.ibmcloud.com/hub/IdentityandAccess 
+<https://exchange.xforce.ibmcloud.com/hub/IdentityandAccess >
 (you will need to use your IBMid to login) 
 
 ![]({{site.baseurl}}/images/IBM-Gateway-For-Radius.png)
 
-Extract and run the installation 'setup_radius'.
+Extract and run the installation using '**setup_radius.exe**'.
 
 Edit the Radius configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConfig.json':
 
@@ -118,26 +117,31 @@ Edit the Radius configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConf
         ] 
     }
 
-Complete the fields 'client-id', 'obf-client-secret' and 'host' with the correct information to point to your IBM Verify Saas API.
-Before we can do this we will need to setup API access in IBM Verify Saas.
-Login to your environment or go for a trial account if you don't have one : https://www.ibm.com/products/verify-identity
+Complete the fields '**client-id**', '**obf-client-secret**' and '**host**' with the correct information to point to your IBM Verify Saas API.
 
-Select Security > API Access > Add API client
+Before we can do this we will need to setup API access in IBM Verify Saas.
+
+Login to your environment or go for a trial account if you don't have one : <https://www.ibm.com/products/verify-identity>
+
+From the main menu select **Security > API Access > Add API client**
+
 Create a new API Client :
+
 - Specify the entitlements by selecting the check bow from the list:
 	- Authenticate any user
     - Read authenticator registrations for all users
     - Read users and groups
     - Read second-factor authentication enrollment for all users
-- Click next on the following screens and finally give the API client a name : e.g. 'MFA-Client'
+- Click next on the following screens and finally give the API client a name : e.g. '**MFA-Client**'
 
-A Client-ID and Secret will automatically be created for you. Use this information to complete the readius config. Use the c:\Program Files\IBM\IbmRadius\IbmRadius.exe -obf <client-secret> command to generate the obfuscated secret value.
+A Client-ID and Secret will automatically be created for you. Use this information to complete the radius config. Use the c:\Program Files\IBM\IbmRadius\IbmRadius.exe -obf <client-secret> command to generate the obfuscated secret value.
 
 Finally configure the IBM Radius service to startup automatically and start the service:
   
 ![]({{site.baseurl}}/images/IBM-Radius-Service.png)
   
-Test Radius Authentication using the Radius tool : NTRadPing (https://ntradping.apponic.com)
+Test Radius Authentication using the Radius tool : NTRadPing <https://ntradping.apponic.com>
+  
 You should get a push notification on the IBM Verify app on the mobile device.
   
 ![]({{site.baseurl}}/images/NTRadPing.png)
@@ -159,14 +163,14 @@ You should get a push notification on the IBM Verify app on the mobile device.
       # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
       # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
 
-- Edit the file /etc/openvpn/server.conf and add the following line to activate the radius plugin:
+- Edit the file **/etc/openvpn/server.conf** and add the following line to activate the radius plugin:
   
 		plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
   
 - Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the radius server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the Radius server side)
 
       ...
-      NAS-IP-Address=<IP Address of the OpenVPN Server>
+      NAS-IP-Address=**<IP Address of the OpenVPN Server>**
       ...
       Server
       {
@@ -175,13 +179,13 @@ You should get a push notification on the IBM Verify app on the mobile device.
         # The UDP port for radius authentication.
         authport=1812
         # The name or ip address of the radius server.
-        name=<IP Address of the Radius Server>
+        name=**<IP Address of the Radius Server>**
         # How many times should the plugin send the if there is no response?
         retry=1
         # How long should the plugin wait for a response?
         wait=60
         # The shared secret.
-        sharedsecret=Passw0rd
+        sharedsecret=**Passw0rd**
       }
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
@@ -190,7 +194,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
       proto udp
       auth-user-pass
       explicit-exit-notify
-      remote 192.168.0.150 1194
+      remote **192.168.0.150** 1194
       dev tun
       resolv-retry infinite
       nobind
@@ -203,4 +207,4 @@ These credentials will be authenticated against the IBM Verify Saas directory an
 The 'wait=60' will allow the plugin to wait for a response from the user.
   
 If you prefer to use an TOTP challenge instead, you can modify the radius configuration file on Windows (IBMRadiusConfig.json) and set the 'auth-method' to 'password-and-totp'.
-Then you can open the client VPN connection and use '<TOTP-challenge>:password' instead of the normal password.
+Then you can open the client VPN connection and use '123456:password' instead of the normal password.

@@ -33,8 +33,40 @@ Finally a client configuration file is ready to be imported into the VPN Client.
 2. Installation OpenVPN client for Windows
 
 Download the OpenVPN Client software from http://openvpn.net/vpn-client
+
 Install the OpenVPN Client:
 
 ![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OpenVPN-Client-Install.png)
+
+Once the installation is finished we can import the configuration file 'demouser.ovpn' which was generated on the OpenVPN server but before importing we need to modify the IP-address of our OpenVPN server in this file:
+
+```
+client
+proto udp
+explicit-exit-notify
+remote **192.168.0.150** 1194
+dev tun
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+...
+```
+
+Normally the remote IP by default will be the address of your public IP which is normal if you have your VPN server on your local network and need remote access from outside this network.
+You can leave the public IP address in the config but then you will have to open up the correct port and set the routing on your internet accces point.
+
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OVPN-Import-Config.png)
+
+Finally we can test the VPN connection. The first time the connection will probably fail as the firewall on the OpenVPN Linux server is blocking the access.
+To quickly test this we can just disable the firewall using the command:
+
+```
+# systemctl stop firewalld
+```
+
+Now the connection should work:
+
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OpenVPN-Client-Connect.png)
 
 

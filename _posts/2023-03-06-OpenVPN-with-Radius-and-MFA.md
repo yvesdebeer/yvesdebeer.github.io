@@ -69,4 +69,79 @@ Now the connection should work:
 
 ![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OpenVPN-Client-Connect.png)
 
+3. In the next step I will describe ho to use Radius with OpenVPN.
+
+First we will install the IBM Security Verify Gateway for RADIUS on a Windows machine.
+Documentation is available at: https://www.ibm.com/docs/en/security-verify?topic=integrations-security-verify-gateway-radius
+
+This package can be downloaded from the IBM Security AppExchange here: 
+https://exchange.xforce.ibmcloud.com/hub/IdentityandAccess 
+(you will need to use your IBMid to login) 
+
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/IBM-Gateway-For-Radius.png)
+
+Extract and run the installation 'setup_radius'.
+
+Edit the Radius configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConfig.json':
+
+```
+{
+    "address":"::",
+    "port":1812,
+/*
+    "trace-file":"c:/tmp/ibm-auth-api.log",
+    "trace-rollover":12697600,
+*/
+    "ibm-auth-api":{
+        "client-id":"???????",
+        "obf-client-secret":"???????", /* See IbmRadius -obf "the-secret" */
+        "protocol":"https",
+        "host":"???????.verify.ibm.com",
+        "port":443,
+        "max-handles":16
+    },
+    "clients":[
+      {
+        "name": "OpenVPN",
+        "address": "192.168.0.0",
+        "mask": "255.255.0.0",
+        "secret": "Passw0rd",
+        "auth-method": "password-and-device",
+        "use-external-ldap": false,
+        "reject-on-missing-auth-method": true,
+        "device-prompt": "A push notification has been sent to your device:[%D].",
+        "poll-device": true,
+        "poll-timeout": 60
+      }
+    ] 
+}
+````
+
+Complete the fields 'client-id', 'obf-client-secret' and 'host' with the correct information to point to your IBM Verify Saas API.
+Before we can do this we will need to setup API access in IBM Verify Saas.
+Login to your environment or go for a trial account if you don't have one : https://www.ibm.com/products/verify-identity
+
+Select Security > API Access > Add API client
+Create a new API Client :
+- Specify the entitlements by selecting the check bow from the list:
+	- Authenticate any user
+    - Read authenticator registrations for all users
+    - Read users and groups
+    - Read second-factor authentication enrollment for all users
+- Click next on the following screens and finally give the API client a name : e.g. 'MFA-Client'
+
+A Client-ID and Secret will automatically be created for you. Use this information to complete the readius config. Use the c:\Program Files\IBM\IbmRadius\IbmRadius.exe -obf <client-secret> command to generate the obfuscated secret value.
+
+Finally configure the IBM Radius service to startup automatically and start the service:
+  
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/IBM-Radius-Service.png)
+  
+Test Radius Authentication using the Radius tool : NTRadPing (https://ntradping.apponic.com)
+You should get a push notification on the IBM Verify app on the iPhone.
+  
+![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/NTRadPing.png)
+  
+
+
+
 

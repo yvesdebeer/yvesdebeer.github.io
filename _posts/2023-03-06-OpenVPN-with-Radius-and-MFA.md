@@ -65,7 +65,7 @@ To quickly test this we can just disable the firewall using the command:
 # systemctl stop firewalld
 ```
 
-Alternative configuration of the firewall:
+Alternative configure Linux firewall for OpenVPN connectivity:
 
 ```
 sudo firewall-cmd --add-service=openvpn
@@ -156,7 +156,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
 
 ## 4. Install OpenVPN Radius PLugin
   
-Login to the Linux OpenVPN server and launch the following commands:
+- Login to the Linux OpenVPN server and launch the following commands:
   
 ```
 # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
@@ -166,17 +166,58 @@ Login to the Linux OpenVPN server and launch the following commands:
 # make
 ```
   
-Copy the radius file to /etc/openvpn
+- Copy the radius file to /etc/openvpn
 
 ```
 # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
 # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
 ```
 
-Edit the file /etc/openvpn/server.conf and add the following line to activate the radius plugin:
+- Edit the file /etc/openvpn/server.conf and add the following line to activate the radius plugin:
   
 ```
 plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf
 ```  
   
+- Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the radius server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the Radius server side)
   
+```
+...
+NAS-IP-Address=<IP Address of the OpenVPN Server>
+...
+Server
+{
+        # The UDP port for radius accounting.
+        acctport=1813
+        # The UDP port for radius authentication.
+        authport=1812
+        # The name or ip address of the radius server.
+        name=<IP Address of the Radius Server>
+        # How many times should the plugin send the if there is no response?
+        retry=1
+        # How long should the plugin wait for a response?
+        wait=60
+        # The shared secret.
+        sharedsecret=Passw0rd
+}
+```
+  
+- Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
+  
+```
+client
+proto udp
+auth-user-pass
+explicit-exit-notify
+remote 192.168.0.150 1194
+dev tun
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+...
+```  
+  
+This will allow the user to enter a username and password when initiating the VPN connection.
+These credentials will be authenticated against the IBM Verify Saas directory and this should result in a challenge request on the IBM Verify Mobile app.
+The 'wait=60' will allow the plugin to wait for a response from the user.

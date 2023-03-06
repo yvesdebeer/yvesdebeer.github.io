@@ -38,16 +38,16 @@ Install the OpenVPN Client:
 
 Once the installation is finished we can import the configuration file 'demouser.ovpn' which was generated on the OpenVPN server but before importing we need to modify the IP-address of our OpenVPN server in this file:
 
-  client
-  proto udp
-  explicit-exit-notify
-  remote **192.168.0.150** 1194
-  dev tun
-  resolv-retry infinite
-  nobind
-  persist-key
-  persist-tun
-  ...
+    client
+    proto udp
+    explicit-exit-notify
+    remote 192.168.0.150 1194
+    dev tun
+    resolv-retry infinite
+    nobind
+    persist-key
+    persist-tun
+    ...
 
 Normally the remote IP by default will be the address of your public IP which is normal if you have your VPN server on your local network and need remote access from outside this network.
 You can leave the public IP address in the config but then you will have to open up the correct port and set the routing on your internet accces point.
@@ -61,12 +61,12 @@ To quickly test this we can just disable the firewall using the command:
 
 Alternative configure Linux firewall for OpenVPN connectivity:
 
-  sudo firewall-cmd --add-service=openvpn
-  sudo firewall-cmd --permanent --add-service=openvpn
-  sudo firewall-cmd --add-masquerade
-  sudo firewall-cmd --permanent --add-masquerade
-  sudo firewall-cmd --permanent --add-port=1194/udp
-  sudo firewall-cmd --reload
+    sudo firewall-cmd --add-service=openvpn
+    sudo firewall-cmd --permanent --add-service=openvpn
+    sudo firewall-cmd --add-masquerade
+    sudo firewall-cmd --permanent --add-masquerade
+    sudo firewall-cmd --permanent --add-port=1194/udp
+    sudo firewall-cmd --reload
 
 Now the connection should work:
 
@@ -87,36 +87,36 @@ Extract and run the installation 'setup_radius'.
 
 Edit the Radius configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConfig.json':
 
-  {
-      "address":"::",
-      "port":1812,
-  /*
-      "trace-file":"c:/tmp/ibm-auth-api.log",
-      "trace-rollover":12697600,
-  */
-      "ibm-auth-api":{
-          "client-id":"???????",
-          "obf-client-secret":"???????", /* See IbmRadius -obf "the-secret" */
-          "protocol":"https",
-          "host":"???????.verify.ibm.com",
-          "port":443,
-          "max-handles":16
-      },
-      "clients":[
-        {
-          "name": "OpenVPN",
-          "address": "192.168.0.0",
-          "mask": "255.255.0.0",
-          "secret": "Passw0rd",
-          "auth-method": "password-and-device",
-          "use-external-ldap": false,
-          "reject-on-missing-auth-method": true,
-          "device-prompt": "A push notification has been sent to your device:[%D].",
-          "poll-device": true,
-          "poll-timeout": 60
-        }
-      ] 
-  }
+    {
+        "address":"::",
+        "port":1812,
+    /*
+        "trace-file":"c:/tmp/ibm-auth-api.log",
+        "trace-rollover":12697600,
+    */
+        "ibm-auth-api":{
+            "client-id":"???????",
+            "obf-client-secret":"???????", /* See IbmRadius -obf "the-secret" */
+            "protocol":"https",
+            "host":"???????.verify.ibm.com",
+            "port":443,
+            "max-handles":16
+        },
+        "clients":[
+          {
+            "name": "OpenVPN",
+            "address": "192.168.0.0",
+            "mask": "255.255.0.0",
+            "secret": "Passw0rd",
+            "auth-method": "password-and-device",
+            "use-external-ldap": false,
+            "reject-on-missing-auth-method": true,
+            "device-prompt": "A push notification has been sent to your device:[%D].",
+            "poll-device": true,
+            "poll-timeout": 60
+          }
+        ] 
+    }
 
 Complete the fields 'client-id', 'obf-client-secret' and 'host' with the correct information to point to your IBM Verify Saas API.
 Before we can do this we will need to setup API access in IBM Verify Saas.
@@ -148,55 +148,55 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
 - Login to the Linux OpenVPN server and launch the following commands:
   
-  # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
-  # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
-  # cd radiusplugin_v2.1a_beta1
-  # yum install libgcrypt libgcrypt-devel gcc-c++
-  # make
+      # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+      # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
+      # cd radiusplugin_v2.1a_beta1
+      # yum install libgcrypt libgcrypt-devel gcc-c++
+      # make
   
 - Copy the radius file to /etc/openvpn
 
-  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
-  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
+      # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
+      # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
 
 - Edit the file /etc/openvpn/server.conf and add the following line to activate the radius plugin:
   
-	plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
+		plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
   
 - Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the radius server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the Radius server side)
 
-  ...
-  NAS-IP-Address=<IP Address of the OpenVPN Server>
-  ...
-  Server
-  {
-          # The UDP port for radius accounting.
-          acctport=1813
-          # The UDP port for radius authentication.
-          authport=1812
-          # The name or ip address of the radius server.
-          name=<IP Address of the Radius Server>
-          # How many times should the plugin send the if there is no response?
-          retry=1
-          # How long should the plugin wait for a response?
-          wait=60
-          # The shared secret.
-          sharedsecret=Passw0rd
-  }
+      ...
+      NAS-IP-Address=<IP Address of the OpenVPN Server>
+      ...
+      Server
+      {
+        # The UDP port for radius accounting.
+        acctport=1813
+        # The UDP port for radius authentication.
+        authport=1812
+        # The name or ip address of the radius server.
+        name=<IP Address of the Radius Server>
+        # How many times should the plugin send the if there is no response?
+        retry=1
+        # How long should the plugin wait for a response?
+        wait=60
+        # The shared secret.
+        sharedsecret=Passw0rd
+      }
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
   
-  client
-  proto udp
-  auth-user-pass
-  explicit-exit-notify
-  remote 192.168.0.150 1194
-  dev tun
-  resolv-retry infinite
-  nobind
-  persist-key
-  persist-tun
-  ...
+      client
+      proto udp
+      auth-user-pass
+      explicit-exit-notify
+      remote 192.168.0.150 1194
+      dev tun
+      resolv-retry infinite
+      nobind
+      persist-key
+      persist-tun
+      ...
   
 This will allow the user to enter a username and password when initiating the VPN connection.
 These credentials will be authenticated against the IBM Verify Saas directory and this should result in a challenge request on the IBM Verify Mobile app.

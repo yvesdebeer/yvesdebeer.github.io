@@ -4,7 +4,7 @@ published: false
 Setting up a VPN connection to access a remote site can be challenging task if you set this up for the first time. In this post I will guide you through the steps to setup an OpenVPN Server and to connect to it using a VPN Client.
 Additionally I ill also show how to setup a Free Radius server and a plugin to implement multi-factor authentication for additional security.
 
-1. Installation OpenVPN server on Linux (I will be using a fresh Centos 9 Linux)
+## 1. Installation OpenVPN server on Linux (I will be using a fresh Centos 9 Linux)
 
 ```
 # yum update
@@ -30,7 +30,7 @@ Download the .ovpn file and import it in your OpenVPN client.
 ```
 Finally a client configuration file is ready to be imported into the VPN Client.
 
-2. Installation OpenVPN client for Windows
+## 2. Installation OpenVPN client for Windows
 
 Download the OpenVPN Client software from http://openvpn.net/vpn-client
 
@@ -65,11 +65,22 @@ To quickly test this we can just disable the firewall using the command:
 # systemctl stop firewalld
 ```
 
+Alternative configuration of the firewall:
+
+```
+sudo firewall-cmd --add-service=openvpn
+sudo firewall-cmd --permanent --add-service=openvpn
+sudo firewall-cmd --add-masquerade
+sudo firewall-cmd --permanent --add-masquerade
+sudo firewall-cmd --permanent --add-port=1194/udp
+sudo firewall-cmd --reload
+```
+
 Now the connection should work:
 
 ![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/OpenVPN-Client-Connect.png)
 
-3. In the next step I will describe ho to use Radius with OpenVPN.
+## 3. In the next step I will describe ho to use Radius with OpenVPN.
 
 First we will install the IBM Security Verify Gateway for RADIUS on a Windows machine.
 Documentation is available at: https://www.ibm.com/docs/en/security-verify?topic=integrations-security-verify-gateway-radius
@@ -137,11 +148,35 @@ Finally configure the IBM Radius service to startup automatically and start the 
 ![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/IBM-Radius-Service.png)
   
 Test Radius Authentication using the Radius tool : NTRadPing (https://ntradping.apponic.com)
-You should get a push notification on the IBM Verify app on the iPhone.
+You should get a push notification on the IBM Verify app on the mobile device.
   
 ![]({{site.baseurl}}/https://github.com/yvesdebeer/yvesdebeer.github.io/blob/master/images/NTRadPing.png)
   
+(Make sure you test with a userid that is known in IBM Verify Saas and is enrolled for OTP)
 
+## 4. Install OpenVPN Radius PLugin
+  
+Login to the Linux OpenVPN server and launch the following commands:
+  
+```
+# wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+# tar -xvf radiusplugin_v2.1a_beta1.tar.gz
+# cd radiusplugin_v2.1a_beta1
+# yum install libgcrypt libgcrypt-devel gcc-c++
+# make
+```
+  
+Copy the radius file to /etc/openvpn
 
+```
+# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
+# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
+```
 
-
+Edit the file /etc/openvpn/server.conf and add the following line to activate the radius plugin:
+  
+```
+plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf
+```  
+  
+  

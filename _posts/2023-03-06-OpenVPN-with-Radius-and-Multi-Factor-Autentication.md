@@ -170,7 +170,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
 - Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the radius server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the Radius server side)
 
       ...
-      NAS-IP-Address=**<IP Address of the OpenVPN Server>**
+      NAS-IP-Address=<IP Address of the OpenVPN Server>
       ...
       Server
       {
@@ -179,13 +179,13 @@ You should get a push notification on the IBM Verify app on the mobile device.
         # The UDP port for radius authentication.
         authport=1812
         # The name or ip address of the radius server.
-        name=**<IP Address of the Radius Server>**
+        name=<IP Address of the Radius Server>
         # How many times should the plugin send the if there is no response?
         retry=1
         # How long should the plugin wait for a response?
         wait=60
         # The shared secret.
-        sharedsecret=**Passw0rd**
+        sharedsecret=Passw0rd
       }
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
@@ -194,7 +194,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
       proto udp
       auth-user-pass
       explicit-exit-notify
-      remote **192.168.0.150** 1194
+      remote 192.168.0.150 1194
       dev tun
       resolv-retry infinite
       nobind

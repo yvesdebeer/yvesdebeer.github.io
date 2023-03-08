@@ -149,7 +149,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
 (Make sure you test with a userid that is known in IBM Verify Saas and is enrolled for OTP)
 
-## 4. Install OpenVPN Radius PLugin
+## 4. Install OpenVPN Radius Plugin
   
 - Login to the Linux OpenVPN server and launch the following commands:
   

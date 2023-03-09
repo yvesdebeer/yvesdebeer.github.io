@@ -82,7 +82,7 @@ Now the connection should work:
 
 ![]({{site.baseurl}}/images/OpenVPN-Client-Connect.png)
 
-On the windows client you should now also get an additional VPN adapter configured with a default IP address of 10.8.0.2 (this subnet is defined within the file /etc/openvpn/server.conf
+On the windows client you should now also get an additional VPN adapter configured with a default IP address of 10.8.0.2 (this subnet is defined within the file /etc/openvpn/server.conf).
 
 ![]({{site.baseurl}}/images/OpenVPN-Windows-IPConfig.png)
 

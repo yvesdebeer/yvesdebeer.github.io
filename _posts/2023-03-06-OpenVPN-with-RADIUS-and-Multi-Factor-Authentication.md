@@ -2,10 +2,10 @@
 published: false
 ---
 Setting up a VPN server to allow remote connections can be challenging if you set this up for the first time. In this post I will guide you through the steps to setup your own VPN Server and to connect to it using a VPN Client.
-Additionally I will also show how to setup a Free RADIUS server and a plugin to implement multi-factor authentication for additional security.
+Additionally I will also show how to setup a free OpenVPN server and a plugin to implement multi-factor authentication for additional security.
 
 ![]({{site.baseurl}}/images/IBM-GW-Radius-Architecture.png)
-## 1. Installation OpenVPN server on Linux (using a fresh Centos 9 Linux)
+## 1. Installation OpenVPN server on Linux (using a fresh Centos Stream 9 Linux)
 
 	# yum update
 	# curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
@@ -30,7 +30,7 @@ Finally a client configuration file is ready to be imported into the VPN Client.
 
 ## 2. Installation OpenVPN Client for Windows
 
-Download the OpenVPN Client software from <http://openvpn.net/vpn-client>
+Download the OpenVPN Client software from <https://openvpn.net/vpn-client>
 
 Install the OpenVPN Client:
 
@@ -71,6 +71,10 @@ Alternatively configure Linux firewall for OpenVPN connectivity:
 Now the connection should work:
 
 ![]({{site.baseurl}}/images/OpenVPN-Client-Connect.png)
+
+On the windows client you should now also get an additional VPN adapter configured with a default IP address of 10.8.0.2 (this subnet is defined within the file /etc/openvpn/server.conf
+
+![]({{site.baseurl}}/images/OpenVPN-Windows-IPConfig.png)
 
 ## 3. The next step describes how to use RADIUS with OpenVPN.
 

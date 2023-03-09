@@ -6,25 +6,29 @@ Additionally I will also show how to setup a free OpenVPN server and a plugin to
 
 ![]({{site.baseurl}}/images/IBM-GW-Radius-Architecture.png)
 ## 1. Installation OpenVPN server on Linux (using a fresh Centos Stream 9 Linux)
+
 {% highlight shell %}
-    #  yum update
-    # curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
-    # chmod +x openvpn-install.sh
-    # ./openvpn-install.sh
+# yum update
+# curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+# chmod +x openvpn-install.sh
+# ./openvpn-install.sh
 {% endhighlight %}
+
 Accept defaults for installation of OpenVPN and at the end provide a 'Client name' e.g. 'demouser'. I have chosen a passwordless client but if you want you can also add an additional password to protect your private key.
 
-	Client name: demouser
+{% highlight shell %}
+Client name: demouser
 
-	Do you want to protect the configuration file with a password?
-	(e.g. encrypt the private key with a password)
-	   1) Add a passwordless client
-	   2) Use a password for the client
-	Select an option [1-2]: 1
-	...
-	...
-	The configuration file has been written to /root/demouser.ovpn.
-	Download the .ovpn file and import it in your OpenVPN client.
+Do you want to protect the configuration file with a password?
+(e.g. encrypt the private key with a password)
+	1) Add a passwordless client
+   2) Use a password for the client
+Select an option [1-2]: 1
+...
+...	
+The configuration file has been written to /root/demouser.ovpn.
+Download the .ovpn file and import it in your OpenVPN client.
+{% endhighlight %}
 
 Finally a client configuration file is ready to be imported into the VPN Client.
 

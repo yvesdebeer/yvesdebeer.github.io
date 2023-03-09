@@ -7,12 +7,12 @@ Additionally I will also show how to setup a free OpenVPN server and a plugin to
 ![]({{site.baseurl}}/images/IBM-GW-Radius-Architecture.png)
 ## 1. Installation OpenVPN server on Linux (using a fresh Centos Stream 9 Linux)
 
-{% highlight shell %}
+```shell
 # yum update
 # curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
 # chmod +x openvpn-install.sh
 # ./openvpn-install.sh
-{% endhighlight %}
+```
 
 Accept defaults for installation of OpenVPN and at the end provide a 'Client name' e.g. 'demouser'. I have chosen a passwordless client but if you want you can also add an additional password to protect your private key.
 
@@ -110,36 +110,36 @@ Edit the RADIUS configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConf
 Save the file and close the editor.
 
 {% highlight json %}
-    {
-        "address":"::",
-        "port":1812,
-    /*
-        "trace-file":"c:/tmp/ibm-auth-api.log",
-        "trace-rollover":12697600,
-    */
-        "ibm-auth-api":{
-            "client-id":"???????",
-            "obf-client-secret":"???????", /* See IbmRadius -obf "the-secret" */
-            "protocol":"https",
-            "host":"???????.verify.ibm.com",
-            "port":443,
-            "max-handles":16
-        },
-        "clients":[
-          {
-            "name": "OpenVPN",
-            "address": "192.168.0.0",
-            "mask": "255.255.0.0",
-            "secret": "Passw0rd",
-            "auth-method": "password-and-device",
-            "use-external-ldap": false,
-            "reject-on-missing-auth-method": true,
-            "device-prompt": "A push notification has been sent to your device:[%D].",
-            "poll-device": true,
-            "poll-timeout": 60
-          }
-        ] 
-    }
+{
+	"address":"::",
+	"port":1812,
+/*
+	"trace-file":"c:/tmp/ibm-auth-api.log",
+	"trace-rollover":12697600,
+*/
+	"ibm-auth-api":{
+		"client-id":"???????",
+		"obf-client-secret":"???????", /* See IbmRadius -obf "the-secret" */
+		"protocol":"https",
+		"host":"???????.verify.ibm.com",
+		"port":443,
+		"max-handles":16
+	},
+	"clients":[
+		{
+			"name": "OpenVPN",
+			"address": "192.168.0.0",
+			"mask": "255.255.0.0",
+			"secret": "Passw0rd",
+			"auth-method": "password-and-device",
+			"use-external-ldap": false,
+			"reject-on-missing-auth-method": true,
+			"device-prompt": "A push notification has been sent to your device:[%D].",
+			"poll-device": true,
+			"poll-timeout": 60
+		}
+	] 
+}
 {% endhighlight %}
 
 Complete the fields '**client-id**', '**obf-client-secret**' and '**host**' with the correct information to point to your IBM Verify Saas API.

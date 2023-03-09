@@ -42,16 +42,18 @@ Install the OpenVPN Client:
 
 Once the installation is finished we can import the configuration file 'demouser.ovpn' which was generated on the OpenVPN server but before importing we need to modify the IP-address of our OpenVPN server within this file:
 
-    client
-    proto udp
-    explicit-exit-notify
-    remote 192.168.0.150 1194
-    dev tun
-    resolv-retry infinite
-    nobind
-    persist-key
-    persist-tun
-    ...
+{% highlight shell %}
+client
+proto udp
+explicit-exit-notify
+remote 192.168.0.150 1194
+dev tun
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+...
+{% endhighlight %}
 
 Normally the remote IP by default will be the address of your public IP which is normal if you have your VPN server on your local network and need remote access from outside this network.
 You can leave the public IP address in the config but then you will have to open up the correct port and set the routing on your internet accces point.
@@ -61,16 +63,20 @@ You can leave the public IP address in the config but then you will have to open
 Finally we can test the VPN connection. The first time the connection will probably fail as the firewall on the OpenVPN Linux server is blocking the access.
 To quickly test this we can just disable the firewall using the command:
 
-	# systemctl stop firewalld
+{% highlight shell %}
+# systemctl stop firewalld
+{% endhighlight %}
 
 Alternatively configure Linux firewall for OpenVPN connectivity:
 
-    sudo firewall-cmd --add-service=openvpn
-    sudo firewall-cmd --permanent --add-service=openvpn
-    sudo firewall-cmd --add-masquerade
-    sudo firewall-cmd --permanent --add-masquerade
-    sudo firewall-cmd --permanent --add-port=1194/udp
-    sudo firewall-cmd --reload
+{% highlight shell %}
+# sudo firewall-cmd --add-service=openvpn
+# sudo firewall-cmd --permanent --add-service=openvpn
+# sudo firewall-cmd --add-masquerade
+# sudo firewall-cmd --permanent --add-masquerade
+# sudo firewall-cmd --permanent --add-port=1194/udp
+# sudo firewall-cmd --reload
+{% endhighlight %}
 
 Now the connection should work:
 
@@ -103,6 +109,7 @@ Edit the RADIUS configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConf
 
 Save the file and close the editor.
 
+{% highlight json %}
     {
         "address":"::",
         "port":1812,
@@ -133,6 +140,7 @@ Save the file and close the editor.
           }
         ] 
     }
+{% endhighlight %}
 
 Complete the fields '**client-id**', '**obf-client-secret**' and '**host**' with the correct information to point to your IBM Verify Saas API.
 
@@ -168,62 +176,74 @@ You should get a push notification on the IBM Verify app on the mobile device.
 ## 4. Install OpenVPN RADIUS Plugin
   
 - Login to the Linux OpenVPN server and launch the following commands:
-  
-      # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
-      # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
-      # cd radiusplugin_v2.1a_beta1
-      # yum install libgcrypt libgcrypt-devel gcc-c++
-      # make
+
+{% highlight shell %}
+# wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+# tar -xvf radiusplugin_v2.1a_beta1.tar.gz
+# cd radiusplugin_v2.1a_beta1
+# yum install libgcrypt libgcrypt-devel gcc-c++
+# make
+{% endhighlight %}
   
 - Copy the RADIUS plugin files to /etc/openvpn
 
-	  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
-	  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
-
-- Edit the file **/etc/openvpn/server.conf** and add the following line to activate the RADIUS plugin:
+{% highlight shell %}
+# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
+# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
+{% endhighlight %}
   
-		plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
+- Edit the file **/etc/openvpn/server.conf** and add the following line to activate the RADIUS plugin:
+
+{% highlight shell %}
+plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
+{% endhighlight %}
   
 - Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the RADIUS server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the RADIUS server side). Make sure to set 'nonfatalaccounting=true' because the RADIUS server does not support RADIUS accounting.
 
-      ...
-      NAS-IP-Address=<IP Address of the OpenVPN Server>
-      ...
-  	  nonfatalaccounting=true
-  	  ...
-      Server
-      {
-        # The UDP port for RADIUS accounting.
-        acctport=1813
-        # The UDP port for RADIUS authentication.
-        authport=1812
-        # The name or ip address of the RADIUS server.
-        name=<IP Address of the RADIUS Server>
-        # How many times should the plugin send the if there is no response?
-        retry=1
-        # How long should the plugin wait for a response?
-        wait=60
-        # The shared secret.
-        sharedsecret=Passw0rd
-      }
+{% highlight shell %}
+...
+NAS-IP-Address=<IP Address of the OpenVPN Server>
+...
+nonfatalaccounting=true
+...
+Server
+{
+	# The UDP port for RADIUS accounting.
+	acctport=1813
+	# The UDP port for RADIUS authentication.
+	authport=1812
+	# The name or ip address of the RADIUS server.
+	name=<IP Address of the RADIUS Server>
+	# How many times should the plugin send the if there is no response?
+	retry=1
+	# How long should the plugin wait for a response?
+	wait=60
+	# The shared secret.
+	sharedsecret=Passw0rd
+}
+{% endhighlight %}
   
-  Save the file and restart the OpenVPN server using the command :
+Save the file and restart the OpenVPN server using the command :
   
-	  # systemctl restart openserver-server@server.service
+{% highlight shell %}
+# systemctl restart openserver-server@server.service
+{% endhighlight %}
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
-  
-      client
-      proto udp
-      auth-user-pass
-      explicit-exit-notify
-      remote 192.168.0.150 1194
-      dev tun
-      resolv-retry infinite
-      nobind
-      persist-key
-      persist-tun
-      ...
+
+{% highlight shell %}
+client
+proto udp
+auth-user-pass
+explicit-exit-notify
+remote 192.168.0.150 1194
+dev tun
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+...
+{% endhighlight %}
   
 This will allow the user to enter a username and password when initiating the VPN connection.
 These credentials will be authenticated against the IBM Verify Saas directory and this should result in a challenge request on the IBM Verify Mobile app.

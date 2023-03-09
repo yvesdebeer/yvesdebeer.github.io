@@ -91,6 +91,14 @@ Extract and run the installation using '**setup_radius.exe**'.
 
 Edit the RADIUS configuration file 'c:\Program Files\IBM\IbmRadius\IbmRadiusConfig.json':
 
+- Find the clients section in the configuration file. 
+
+- The default file has three example client definitions. Delete these definitions and replace with the single definition shown above.
+
+- This definition will match any RADIUS client connecting from the network used by the test machines. The secret authenticates the client.
+
+Save the file and close the editor.
+
     {
         "address":"::",
         "port":1812,
@@ -157,26 +165,28 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
 - Login to the Linux OpenVPN server and launch the following commands:
   
-      # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
-      # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
-      # cd radiusplugin_v2.1a_beta1
-      # yum install libgcrypt libgcrypt-devel gcc-c++
-      # make
+	# wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+	# tar -xvf radiusplugin_v2.1a_beta1.tar.gz
+	# cd radiusplugin_v2.1a_beta1
+	# yum install libgcrypt libgcrypt-devel gcc-c++
+	# make
   
-- Copy the RADIUS file to /etc/openvpn
+- Copy the RADIUS plugin files to /etc/openvpn
 
-      # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
-      # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
+	# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
+	# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
 
 - Edit the file **/etc/openvpn/server.conf** and add the following line to activate the RADIUS plugin:
   
 		plugin /etc/openvpn/radiusplugin.so /etc/openvpn/radiusplugin.cnf 
   
-- Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the RADIUS server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the RADIUS server side)
+- Edit the file /etc/openvpn/radiusplugin.cnf and modify the ip address of the RADIUS server and set the sharedsecret to 'Passw0rd' (this is the secret that was also configure on the RADIUS server side). Make sure to set 'nonfatalaccounting=true' because the RADIUS server does not support RADIUS accounting.
 
       ...
       NAS-IP-Address=<IP Address of the OpenVPN Server>
       ...
+  	  nonfatalaccounting=true
+  	  ...
       Server
       {
         # The UDP port for RADIUS accounting.
@@ -192,6 +202,10 @@ You should get a push notification on the IBM Verify app on the mobile device.
         # The shared secret.
         sharedsecret=Passw0rd
       }
+  
+  Save the file and restart the OpenVPN server using the command :
+  
+	# systemctl restart openserver-server@server.service
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
   
@@ -209,7 +223,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
 This will allow the user to enter a username and password when initiating the VPN connection.
 These credentials will be authenticated against the IBM Verify Saas directory and this should result in a challenge request on the IBM Verify Mobile app.
-The 'wait=60' will allow the plugin to wait for a response from the user.
+The 'wait=60' will allow the plugin to wait for a response from the user which has to respond to the challenge using the IBM Verify App on his phone.
   
 If you prefer to use an TOTP challenge instead, you can modify the RADIUS configuration file on Windows (IBMRadiusConfig.json) and set the 'auth-method' to 'password-and-totp'.
 Then you can open the client VPN connection and use '123456:password' instead of the normal password.

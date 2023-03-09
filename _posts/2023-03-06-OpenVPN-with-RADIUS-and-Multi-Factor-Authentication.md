@@ -227,3 +227,9 @@ The 'wait=60' will allow the plugin to wait for a response from the user which h
   
 If you prefer to use an TOTP challenge instead, you can modify the RADIUS configuration file on Windows (IBMRadiusConfig.json) and set the 'auth-method' to 'password-and-totp'.
 Then you can open the client VPN connection and use '123456:password' instead of the normal password.
+
+See also : https://www.ibm.com/docs/en/security-verify?topic=server-clients
+
+Additional resource learning material:
+
+https://www.securitylearningacademy.com/course/view.php?id=6901

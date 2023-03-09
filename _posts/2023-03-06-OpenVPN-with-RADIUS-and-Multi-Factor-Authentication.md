@@ -205,7 +205,7 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
   Save the file and restart the OpenVPN server using the command :
   
-	# systemctl restart openserver-server@server.service
+	  # systemctl restart openserver-server@server.service
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':
   

@@ -7,8 +7,8 @@ Additionally I will also show how to setup a free OpenVPN server and a plugin to
 ![]({{site.baseurl}}/images/IBM-GW-Radius-Architecture.png)
 ## 1. Installation OpenVPN server on Linux (using a fresh Centos Stream 9 Linux)
 
-{% include codeHeader.html %}
 {% highlight shell %}
+{% include codeHeader.html %}
 # yum update
 # curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
 # chmod +x openvpn-install.sh

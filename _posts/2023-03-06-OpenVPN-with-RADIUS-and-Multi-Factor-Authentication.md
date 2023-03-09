@@ -165,16 +165,16 @@ You should get a push notification on the IBM Verify app on the mobile device.
   
 - Login to the Linux OpenVPN server and launch the following commands:
   
-    # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
-    # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
-    # cd radiusplugin_v2.1a_beta1
-    # yum install libgcrypt libgcrypt-devel gcc-c++
-    # make
+      # wget https://www.nongnu.org/radiusplugin/radiusplugin_v2.1a_beta1.tar.gz
+      # tar -xvf radiusplugin_v2.1a_beta1.tar.gz
+      # cd radiusplugin_v2.1a_beta1
+      # yum install libgcrypt libgcrypt-devel gcc-c++
+      # make
   
 - Copy the RADIUS plugin files to /etc/openvpn
 
-	# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
-	# cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
+	  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.cnf /etc/openvpn
+	  # cp /root/radiusplugin_v2.1a_beta1/radiusplugin.so /etc/openvpn
 
 - Edit the file **/etc/openvpn/server.conf** and add the following line to activate the RADIUS plugin:
   

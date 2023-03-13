@@ -22,7 +22,7 @@ Client name: demouser
 Do you want to protect the configuration file with a password?
 (e.g. encrypt the private key with a password)
 	1) Add a passwordless client
-   2) Use a password for the client
+	2) Use a password for the client
 Select an option [1-2]: 1
 ...
 ...	

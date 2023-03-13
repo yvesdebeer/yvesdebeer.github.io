@@ -56,7 +56,7 @@ persist-tun
 {% endhighlight %}
 
 Normally the remote IP by default will be the address of your public IP which is normal if you have your VPN server on your local network and need remote access from outside this network.
-You can leave the public IP address in the config but then you will have to open up the correct port and set the routing on your internet accces point.
+You can leave the public IP address in the config but then you will have to open up the correct port and set the routing on your internet access point.
 
 ![]({{site.baseurl}}/images/OVPN-Import-Config.png)
 

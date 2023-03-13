@@ -152,7 +152,7 @@ From the main menu select **Security > API Access > Add API client**
 
 Create a new API Client :
 
-- Specify the entitlements by selecting the check bow from the list:
+- Specify the entitlements by selecting the check box from the list:
 	- Authenticate any user
     - Read authenticator registrations for all users
     - Read users and groups

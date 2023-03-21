@@ -226,7 +226,7 @@ Server
 Save the file and restart the OpenVPN server using the command :
   
 {% highlight shell %}
-# systemctl restart openserver-server@server.service
+# systemctl restart openvpn-server@server.service
 {% endhighlight %}
   
 - Finally edit the OpenVPN client file 'demouser.ovpn' and add a line 'auth-user-pass':

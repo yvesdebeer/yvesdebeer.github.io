@@ -133,5 +133,35 @@ This pull secret allows you to authenticate with the container registries that s
     # oc get pods
     NAME                    READY   STATUS    RESTARTS   AGE
 	myapp-85fc44587-26hjm   1/1     Running   0          12s
-
-
+	# oc expose svc myapp
+    # oc get svc
+    NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+	kubernetes   ClusterIP   10.43.0.1      <none>        443/TCP    8h
+	myapp        ClusterIP   10.43.180.45   <none>        3000/TCP   9s
+    # oc get route
+    NAME    HOST                             ADMITTED   SERVICE   TLS
+	myapp   myapp-default.apps.example.com   True       myapp
+	# cat <<EOF | oc apply -f -
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: router
+      namespace: openshift-ingress
+    spec:
+      type: NodePort
+      selector:
+        ingresscontroller.operator.openshift.io/deployment-ingresscontroller: default
+      ports:
+        - name: http
+          port: 80
+          targetPort: 80
+          nodePort: 30080
+        - name: https
+          port: 443
+          targetPort: 443
+          nodePort: 30443
+    EOF
+    # oc get svc -n openshift-ingress
+    # curl -H 'Host: myapp-default.apps.example.com' 192.168.0.130:30080
+    Hello, world!
+    

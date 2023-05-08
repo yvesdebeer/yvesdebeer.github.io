@@ -29,6 +29,7 @@ Follow the procedure for installation from the link above.
 Specifically the storage configuration part.
 
 - Verify the VG capacity: (make sure the VG is called rhel)
+
 {% highlight shell %}
 # sudo vgs
 VG      #PV #LV #SN Attr   VSize  VFree

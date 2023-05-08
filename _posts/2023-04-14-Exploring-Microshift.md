@@ -29,60 +29,79 @@ Follow the procedure for installation from the link above.
 Specifically the storage configuration part.
 
 - Verify the VG capacity: (make sure the VG is called rhel)
-
-    # sudo vgs
-    VG                           #PV #LV #SN Attr   VSize  VFree
-  	rhel                           1   2   0 wz--n- 22.05g    0
+{% highlight shell %}
+# sudo vgs
+VG      #PV #LV #SN Attr   VSize  VFree
+rhel      1   2   0 wz--n- 22.05g    0
+{% endhighlight %}
     
 - Enable MicroShift Repo's:
 
-	# sudo subscription-manager repos \
-    --enable rhocp-4.12-for-rhel-8-$(uname -i)-rpms \
-    --enable fast-datapath-for-rhel-8-$(uname -i)-rpms
-      
+{% highlight shell %}
+# sudo subscription-manager repos \
+--enable rhocp-4.12-for-rhel-8-$(uname -i)-rpms \
+--enable fast-datapath-for-rhel-8-$(uname -i)-rpms
+{% endhighlight %}
+
 - Install MicroShift:
 
-	# sudo dnf install -y microshift-4.12.1 openshift-clients
+{% highlight shell %}
+# sudo dnf install -y microshift-4.12.1 openshift-clients
+{% endhighlight %}
     
 - Download your installation pull secret from the Red Hat Hybrid Cloud Console https://console.redhat.com/ -> OpenShift -> Downloads
 
 This pull secret allows you to authenticate with the container registries that serve the container images used by MicroShift.
 
-	# sudo vi /etc/crio/openshift-pull-secret
+{% highlight shell %}
+# sudo vi /etc/crio/openshift-pull-secret
+{% endhighlight %}
     
 - If your RHEL machine has a firewall enabled, you must configure a few mandatory firewall rules. For firewalld, run the following commands:
 
-    # sudo firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16
-    # sudo firewall-cmd --permanent --zone=trusted --add-source=169.254.169.1
-    # sudo firewall-cmd --reload
+{% highlight shell %}
+# sudo firewall-cmd --permanent --zone=trusted --add-source=10.42.0.0/16
+# sudo firewall-cmd --permanent --zone=trusted --add-source=169.254.169.1
+# sudo firewall-cmd --reload
+{% endhighlight %}
 
 - Start the MicroShift service:
 
-	# sudo systemctl enable microshift.service
-	# sudo systemctl start microshift.service
+{% highlight shell %}
+# sudo systemctl enable microshift.service
+# sudo systemctl start microshift.service
+{% endhighlight %}
 
 - Install client to acces the cluster:
 
-	# curl -O https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz
-	# sudo tar -xf openshift-client-linux.tar.gz -C /usr/local/bin oc kubectl
+{% highlight shell %}
+# curl -O https://mirror.openshift.com/pub/openshift-v4/$(uname -m)/clients/ocp/stable/openshift-client-linux.tar.gz
+# sudo tar -xf openshift-client-linux.tar.gz -C /usr/local/bin oc kubectl
+{% endhighlight %}
     
 - Access the MicroShift cluster locally:
 
-	# mkdir ~/.kube
-	# sudo cat /var/lib/microshift/resources/kubeadmin/kubeconfig > ~/.kube/config
+{% highlight shell %}
+# mkdir ~/.kube
+# sudo cat /var/lib/microshift/resources/kubeadmin/kubeconfig > ~/.kube/config
+{% endhighlight %}
     
 - Check that pods are starting:
-	
-    # oc get pods -A
+
+{% highlight shell %}
+# oc get pods -A
+{% endhighlight %}
 
 - Check MicroShift version:
 
-	#microshift version
-	MicroShift Version: 4.12.1
-	Base OCP Version: 4.12.1
+{% highlight shell %}
+#microshift version
+MicroShift Version: 4.12.1
+Base OCP Version: 4.12.1
     
 ### Deploy a simple application
 
+{% highlight shell %}
 	# mkdir myapp
     # cd myapp
     # sudo dnf install npm
@@ -164,3 +183,4 @@ This pull secret allows you to authenticate with the container registries that s
     # oc get svc -n openshift-ingress
     # curl -H 'Host: myapp-default.apps.example.com' 192.168.0.130:30080
     Hello, world!
+  {% endhighlight %}

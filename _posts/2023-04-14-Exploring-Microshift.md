@@ -98,6 +98,7 @@ This pull secret allows you to authenticate with the container registries that s
 #microshift version
 MicroShift Version: 4.12.1
 Base OCP Version: 4.12.1
+{% endhighlight %}
     
 ### Deploy a simple application
 

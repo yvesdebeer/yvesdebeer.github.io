@@ -103,85 +103,85 @@ Base OCP Version: 4.12.1
 ### Deploy a simple application
 
 {% highlight shell %}
-	# mkdir myapp
-    # cd myapp
-    # sudo dnf install npm
-    # npm init -y
-    # npm install express --save
-    # cat index.js
-    const express = require('express')
-	const app = express()
-    app.get('/', (req, res) => {
-      res.send('Hello, world!')
-    })
-    const port = process.env.PORT || 3000
-    app.listen(port, () => {
-      console.log(`Server running on port ${port}`)
-    })
-    # vi package.json *** Add a Script : "start": "node index.js"
-    # npm start *** Verify the app is working
-    # cat Dockerfile
-    FROM node:14-alpine
-    WORKDIR /app
-    COPY package.json .
-    RUN npm install
-    COPY . .
-    CMD ["npm", "start"]
-    # podman build -t myapp .
-    # podman images
-    # podman login quay.io
-    # podman tag localhost/myapp quay.io/yvesdebeer/myapp:v1
-    # podman push quay.io/yvesdebeer/myapp:v1
-    # kubectl create secret docker-registry myregistrykey --docker-server=quay.io --docker-username=<username> --docker-password=<password> --docker-email=<email-address>
-    # kubectl create deployment myapp --image=quay.io/yvesdebeer/myapp:v1 --image-pull-secrets=myregistrykey
-    # kubectl create deployment myapp --image=quay.io/yvesdebeer/myapp:v1
-    # oc get pods
-    NAME                    READY   STATUS         RESTARTS   AGE
-	myapp-7bfc8fbcf-5vq6v   0/1     ErrImagePull   0          39s
-    # kubectl get deployment myapp -o yaml > myapp.yaml
-    # vi myapp.yaml -> add the imagePullSecrets to spec -> template -> spec -> containers 			spec:
-      containers:
-      - image: quay.io/yvesdebeer/myapp:v1
-        imagePullPolicy: IfNotPresent
-        name: myapp
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      imagePullSecrets:
-        - name: myregistrykey
-   	# kubectl apply -f myapp.yaml
-    # oc get pods
-    NAME                    READY   STATUS    RESTARTS   AGE
-	myapp-85fc44587-26hjm   1/1     Running   0          12s
-	# oc expose svc myapp
-    # oc get svc
-    NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
-	kubernetes   ClusterIP   10.43.0.1      <none>        443/TCP    8h
-	myapp        ClusterIP   10.43.180.45   <none>        3000/TCP   9s
-    # oc get route
-    NAME    HOST                             ADMITTED   SERVICE   TLS
-	myapp   myapp-default.apps.example.com   True       myapp
-	# cat <<EOF | oc apply -f -
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: router
-      namespace: openshift-ingress
-    spec:
-      type: NodePort
-      selector:
-        ingresscontroller.operator.openshift.io/deployment-ingresscontroller: default
-      ports:
-        - name: http
-          port: 80
-          targetPort: 80
-          nodePort: 30080
-        - name: https
-          port: 443
-          targetPort: 443
-          nodePort: 30443
-    EOF
-    # oc get svc -n openshift-ingress
-    # curl -H 'Host: myapp-default.apps.example.com' 192.168.0.130:30080
-    Hello, world!
-  {% endhighlight %}
+# mkdir myapp
+# cd myapp
+# sudo dnf install npm
+# npm init -y
+# npm install express --save
+# cat index.js
+const express = require('express')
+const app = express()
+app.get('/', (req, res) => {
+  res.send('Hello, world!')
+})
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`)
+})
+# vi package.json *** Add a Script : "start": "node index.js"
+# npm start *** Verify the app is working
+# cat Dockerfile
+FROM node:14-alpine
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
+# podman build -t myapp .
+# podman images
+# podman login quay.io
+# podman tag localhost/myapp quay.io/yvesdebeer/myapp:v1
+# podman push quay.io/yvesdebeer/myapp:v1
+# kubectl create secret docker-registry myregistrykey --docker-server=quay.io --docker-username=<username> --docker-password=<password> --docker-email=<email-address>
+# kubectl create deployment myapp --image=quay.io/yvesdebeer/myapp:v1 --image-pull-secrets=myregistrykey
+# kubectl create deployment myapp --image=quay.io/yvesdebeer/myapp:v1
+# oc get pods
+NAME                    READY   STATUS         RESTARTS   AGE
+myapp-7bfc8fbcf-5vq6v   0/1     ErrImagePull   0          39s
+# kubectl get deployment myapp -o yaml > myapp.yaml
+# vi myapp.yaml -> add the imagePullSecrets to spec -> template -> spec -> containers 			spec:
+  containers:
+  - image: quay.io/yvesdebeer/myapp:v1
+    imagePullPolicy: IfNotPresent
+    name: myapp
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+  imagePullSecrets:
+    - name: myregistrykey
+# kubectl apply -f myapp.yaml
+# oc get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+myapp-85fc44587-26hjm   1/1     Running   0          12s
+# oc expose svc myapp
+# oc get svc
+NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+kubernetes   ClusterIP   10.43.0.1      <none>        443/TCP    8h
+myapp        ClusterIP   10.43.180.45   <none>        3000/TCP   9s
+# oc get route
+NAME    HOST                             ADMITTED   SERVICE   TLS
+myapp   myapp-default.apps.example.com   True       myapp
+# cat <<EOF | oc apply -f -
+apiVersion: v1
+kind: Service
+metadata:
+  name: router
+  namespace: openshift-ingress
+spec:
+  type: NodePort
+  selector:
+    ingresscontroller.operator.openshift.io/deployment-ingresscontroller: default
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+    - name: https
+      port: 443
+      targetPort: 443
+      nodePort: 30443
+EOF
+# oc get svc -n openshift-ingress
+# curl -H 'Host: myapp-default.apps.example.com' 192.168.0.130:30080
+Hello, world!
+{% endhighlight %}

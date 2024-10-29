@@ -1,4 +1,6 @@
-## What is Microshift ?
+---
+published: true
+---
 
 MicroShift is an experimental flavor of OpenShift/Kubernetes: https://next.redhat.com/project/microshift/
 

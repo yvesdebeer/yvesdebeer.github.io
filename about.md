@@ -4,12 +4,8 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
-
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself.
+Hi, my name is Yves Debeer. I like learning and experimenting with new technologies with a specific interest for Internet of Things.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[yves.debeer@gmail.com](mailto:yves.debeer@gmail.com)

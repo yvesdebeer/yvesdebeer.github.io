@@ -13,4 +13,9 @@ Hi, my name is Yves Debeer. I like learning and experimenting with new technolog
 ### Some Technical Webinars
 
 <https://www.youtube.com/@cybersecurity-force>
+
 <https://www.youtube.com/@power-talks>
+
+### Technical articles
+
+<https://dzone.com/users/4359760/debeer.html>

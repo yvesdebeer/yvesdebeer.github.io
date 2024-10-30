@@ -9,3 +9,8 @@ Hi, my name is Yves Debeer. I like learning and experimenting with new technolog
 ### Contact me
 
 [yves.debeer@gmail.com](mailto:yves.debeer@gmail.com)
+
+### Some Technical Webinars
+
+<https://www.youtube.com/@cybersecurity-force>
+<https://www.youtube.com/@power-talks>
